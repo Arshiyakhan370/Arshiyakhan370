@@ -1,0 +1,35 @@
+localStorage.setItem('name','bob');
+localStorage.removeItem('name');
+
+
+sessionStorage.setItem('name','john');
+sessionStorage.setItem('name','bob');
+
+document.cookie ='name=kyle; expires =' + new Date(9999,0,1)
+.toUTCString()
+
+document.cookie ='lastName=smith;expires=' + new Date(9999,0,1)
+
+console.log(dcument.cookie)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
