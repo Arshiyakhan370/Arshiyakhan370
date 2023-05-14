@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Appointment</title>
+  <style>
+    .hiddenid {
+      display: none;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js" defer></script>
+  <script src="script.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"
+    defer></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+</head>
+
+<body class="p-5">
+  <div class="container p-3 h-auto">
+    <form action="" autocomplete="on"
+      class="border border-primary p-2 h-auto mx-lg-4 mw-100 bg-opacity-25 bg-white rounded-3">
+      <h2 class="text-center m-4 text-danger">Book a call</h2>
+      <p class="text-center">Book a call slot and our representative will call you within 1hr of selected time.</p>
+      <hr>
+
+      <label for="name" class="form-label mt-3">Name:</label>
+      <input type="text" name="name" id="name" class="bg-transparent form-control border-success" required>
+      <label for="email" class="form-label mt-3">Email:</label>
+      <input type="email" name="email" id="email" class="bg-transparent form-control border-success" required>
+      <label for="phone" class="form-label mt-3">Phone:</label>
+      <input type="tel" name="tel" id="phone" class="bg-transparent form-control border-success" required>
+      <label for="time" class="form-label mt-3">Time for Call:</label> <br>
+      <input type="date" name="date" id="time" class="bg-transparent form-control border-success mb-1">
+      <input type="time" name="date" id="time" class="bg-transparent form-control border-success">
+
+      <button type="submit" class="btn btn-danger w-100 mt-4">GET A CALL</button>
+    </form>
+  </div>
+
+  <div class="container users d-flex justify-content-center align-items-center flex-column w-75"></div>
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Edit user details</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="" autocomplete="on"
+            class="border border-primary p-2 h-auto mx-lg-4 mw-100 bg-opacity-25 bg-white rounded-3">
+
+            <label for="editName" class="form-label mt-3">Name:</label>
+            <input type="text" name="name" id="editName" class="bg-transparent form-control border-success" required>
+            
+            <label for="editEmail" class="form-label mt-3">Email:</label>
+            <input type="email" name="email" id="editEmail" class="bg-transparent form-control border-success" required>
+
+            <label for="editPhone" class="form-label mt-3">Phone:</label>
+            <input type="tel" name="tel" id="editPhone" class="bg-transparent form-control border-success" required>
+
+            <label for="editDate" class="form-label mt-3">Time for Call:</label> <br>
+            <input type="date" name="date" id="editDate" class="bg-transparent form-control border-success mb-1">
+            <input type="time" name="date" id="editTime" class="bg-transparent form-control border-success">
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary saveDetails">Save changes</button>
+        </div>
+        <div class="hiddenid"></div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
