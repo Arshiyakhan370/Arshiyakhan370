@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flipkart Admin panel</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"
+    defer></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+</head>
+-
+<body onload="fetchDetails(event)">
+  <form action="" onsubmit="printDetails(event)" autocomplete="on"
+    class="m-3 border border-primary p-2 h-auto mx-lg-4 mw-100 bg-opacity-25 bg-white rounded-3 d-flex flex-column">
+    <label for="price">Product Price :</label>
+    <input type="number" id="price">
+    <label for="name">Product Name :</label>
+    <input type="text" id="name">
+       <input type="submit" value="Submit Product">
+  </form>
+  <h2 class="h1 m-3">Products</h2>
+  <ul id="products" class="list-group m-3"></ul>
+  <p class="p-3">Total price of the products : <span class="totalPrice">0</span></p>
+</body>
+<script>
+  // Async-await
+  axios.defaults.headers.common['X-Auth-Token'] = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
+
+  const inputPrice = document.getElementById('price'); 
+  const inputName = document.getElementById('name');
+  const products = document.getElementById('products');
+  const totalPrice = document.querySelector('.totalPrice');
+
+  async function fetchDetails(e) {
+    try {
+      let tPrice = 0;
+      const res = await axios.get('https://crudcrud.com/api/ff0fb7bbc79343b69cf1805ac4ca2141/products')
+
+      if (res.data[0]) {
+        res.data.forEach(p => {
+          tPrice += +p.price;
+          printDetails(e, p.price, p.name);
+        })
+      }
+      totalPrice.textContent = tPrice;
+
+    } catch (error) {
+console.log(e)
+    }
+  }
+
+
+  async function saveProduct(obj) {
+    try {
+      const res = await axios.post('https://crudcrud.com/api/ff0fb7bbc79343b69cf1805ac4ca2141/products', obj)
+
+    } catch (e) {
+      console.log(e)
+    }
+
+
+  }
+
+  function printDetails(e, prodPrice, prodName) {
+    e.preventDefault();
+
+    const li = document.createElement('li');
+    const deleteBtn = document.createElement('input');
+    const editBtn = document.createElement('input');
+
+    if (prodPrice && prodName)
+      li.textContent = prodPrice + " - " + prodName;
+    else
+      li.textContent = inputPrice.value + " - " + inputName.value;
+
+    li.className = 'ms-3';
+    deleteBtn.className = 'delete btn btn-danger m-2 btn-sm';
+    deleteBtn.type = 'button';
+    deleteBtn.value = 'Delete';
+    editBtn.className = 'edit btn btn-success m-2 btn-sm';
+    editBtn.type = 'button';
+    editBtn.value = 'Edit';
+
+    li.appendChild(deleteBtn);
+    li.appendChild(editBtn);
+    products.appendChild(li);
+
+    if (!prodPrice && !prodName) {
+      const obj = {
+        price: inputPrice.value.trim(),
+        name: inputName.value.trim()
+      }
+
+      console.log(obj);
+      totalPrice.textContent = +totalPrice.textContent + +inputPrice.value;
+
+      inputPrice.value = '';
+      inputName.value = '';
+
+      saveProduct(obj);
+    }
+  }
+
+  async function productHandler(e, editor) {
+   try {let prodData = e.target.parentElement.innerText;
+    products.removeChild(e.target.parentElement);
+
+    let prodName = prodData.split(' - ')[1];
+
+    const res=await axios.get('https://crudcrud.com/api/ff0fb7bbc79343b69cf1805ac4ca2141/products')
+      
+        res.data.forEach(p => {
+          if (p.name === prodName) {
+            if (editor) {
+              inputPrice.value = p.price;
+              inputName.value = p.name;
+            }
+
+   totalPrice.textContent = +totalPrice.textContent - p.price;
+        axios.delete(`https://crudcrud.com/api/ff0fb7bbc79343b69cf1805ac4ca2141/${p._id}`)
+              .then(e => console.log(e))
+              .catch(e => alert(e));
+          }
+        });
+      
+     
+   } catch (error) {
+    console.log(e)
+   }
+    
+  }
+
+  products.addEventListener('click', (e) => {
+    if (e.target.classList.contains('delete'))
+      productHandler(e, false);
+
+    if (e.target.classList.contains('edit'))
+      productHandler(e, true);
+  })
+</script>
+
+</html>
